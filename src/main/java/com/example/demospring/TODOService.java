@@ -9,6 +9,7 @@ public class TODOService {
     static List<TODO> TODOList = new ArrayList<>();
     
     static TODO add(TODO todo){
+        todo.setId(TODOList.size());
         TODOList.add(todo);
         return todo;
     }

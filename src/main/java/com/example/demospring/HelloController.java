@@ -1,5 +1,3 @@
-
-
 package com.example.demospring;
 
 import java.rmi.ServerException;
@@ -26,27 +24,26 @@ public class HelloController {
 
   @GetMapping("/getTODOs")
   @ResponseBody
-  public ResponseEntity<List<TODO>> getTODOs(){
-    return new ResponseEntity<>(TODOService.getAllTodos(), HttpStatus.CREATED);
+  public ResponseEntity<List<TODO>> getTODOs() {
+    return ResponseEntity.ok(TODOService.getAllTodos());
   }
 
-  @PostMapping(value="/addTODO", 
-    consumes = MediaType.APPLICATION_JSON_VALUE, 
-    produces = MediaType.APPLICATION_JSON_VALUE)
-  
-  public ResponseEntity<TODO> addTODO(@RequestBody TODO newTodo) throws ServerException{
+  @PostMapping(value="/addTODO", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<TODO> addTODO(@RequestBody TODO newTodo) throws ServerException {
 
     TODO todo = TODOService.add(newTodo);
 
-    System.out.println(todo);
+    System.out.println("------>>>>  "+todo);
 
-        if (todo == null) {
-        throw new ServerException("Invalid Entry");
+    
+
+    if (todo == null) {
+      throw new ServerException("Invalid Entry");
     } else {
-        return new ResponseEntity<>(todo, HttpStatus.CREATED);
+      ResponseEntity<TODO> re = ResponseEntity.status(HttpStatus.CREATED).body(todo);
+      System.out.println(re);
+      return re;
     }
   }
 
-
 }
-
