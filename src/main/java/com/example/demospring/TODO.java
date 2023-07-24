@@ -19,5 +19,6 @@ public class TODO {
         description = _desc;
         dateTime = _date;
         isCompleted = _value;
+
     }
 }
