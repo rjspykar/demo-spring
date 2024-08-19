@@ -31,8 +31,6 @@ public class TODOService {
         new int[]{Types.VARCHAR,Types.VARCHAR,Types.BOOLEAN},
         String.class );
 
-
-
         todo.setId(Integer.parseInt(res));
         return todo;
     }
@@ -42,13 +40,17 @@ public class TODOService {
         return res > 0;
     }
 
-
-
     public List<TODO> getAllTodos() throws SQLException {
         List<TODO> todos = new ArrayList<>();
         String query = "SELECT * FROM DEMO_SCHEMA.TODOS ORDER BY date_time DESC";
 
+        System.out.println("query: "+query);
+
         List<Map<String, Object>> results = jdbcTemplate.queryForList(query);
+
+        Integer i = jdbcTemplate.queryForObject("SELECT 1", Integer.class);
+
+        System.out.println("i:"+ i);
 
         for (Map<String, Object> row : results) {
             try {
@@ -57,7 +59,6 @@ public class TODOService {
                 String dateTimeString = row.get("date_time") != null ? row.get("date_time").toString() : null;
                 boolean isCompleted = (boolean) row.get("is_completed");
 
-
                 TODO todo = new TODO(id, description, dateTimeString, isCompleted);
                 todos.add(todo);
             } catch (ClassCastException | DateTimeParseException e) {
@@ -65,7 +66,6 @@ public class TODOService {
                 // Optionally, handle the row parsing error (e.g., skip this row, or add a default TODO item)
             }
         }
-
         return todos;
     }
    
